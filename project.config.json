@@ -1,0 +1,34 @@
+{
+  "name": "robles-payment-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.0.0",
+    "lucide-react": "^0.0.0",
+    "google-spreadsheet": "^4.0.0"
+  },
+  "config": {
+    "googleSheets": {
+      "spreadsheetId": "1ThgfHPMCgOAaobuhsyhFboRitIEWFvCDnw-oRR_VlD0",
+      "empresasSheetId": 0,
+      "ventasSheetId": 1
+    }
+  },
+  "development": {
+    "ports": {
+      "frontend": 3000,
+      "api": 3000
+    }
+  }
+}
