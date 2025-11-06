@@ -32,21 +32,41 @@ Una aplicación web moderna desarrollada con Next.js y Tailwind CSS para registr
    npm install
    ```
 
-3. **Configura las variables de entorno**:
-   ```powershell
-   copy .env.local.example .env.local
+3. **🔑 CONFIGURACIÓN CRÍTICA - Variables de Entorno**:
+   
+   **⚠️ IMPORTANTE**: El archivo `.env.local` ha sido creado pero necesitas configurar tus credenciales reales de Supabase.
+
+   Abre el archivo `.env.local` y sigue estos pasos:
+
+   a) **Crear proyecto en Supabase**:
+   - Ir a https://supabase.com
+   - Crear una cuenta gratuita
+   - Crear un nuevo proyecto
+   - Esperar a que se configure (2-3 minutos)
+
+   b) **Obtener credenciales**:
+   - En el dashboard de tu proyecto, ir a **Settings > API**
+   - Copiar "Project URL" 
+   - Copiar "anon public" key
+
+   c) **Actualizar .env.local**:
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_aqui
    ```
 
-4. **Configuración requerida**:
-   - **Google Sheets**: Edita el ID del Google Sheet en `src/services/googleSheetsService.ts`
-   - **Supabase**: Sigue las instrucciones en `SUPABASE_SETUP.md` para configurar la base de datos
+4. **🗄️ Configurar Base de Datos**:
+   
+   Ver `SUPABASE_SETUP.md` para instrucciones completas
 
 5. **Ejecuta el proyecto**:
    ```powershell
    npm run dev
    ```
 
-6. **Abre tu navegador en**: [http://localhost:3000](http://localhost:3000)
+6. **✅ Verificar configuración**:
+   - Abrir: [http://localhost:3000/api/test-supabase](http://localhost:3000/api/test-supabase)
+   - Debe mostrar "test_completed" en lugar de errores
 
 ## 🗄️ Configuración de Base de Datos
 
