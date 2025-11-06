@@ -1,8 +1,33 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
 
 export async function GET() {
   try {
+    // Verificar variables de entorno primero
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return NextResponse.json({
+        status: 'configuration_error',
+        error: 'Variables de entorno de Supabase no configuradas',
+        details: {
+          SUPABASE_URL: supabaseUrl ? '✅ Configurada' : '❌ Faltante',
+          SUPABASE_KEY: supabaseAnonKey ? '✅ Configurada' : '❌ Faltante',
+          instructions: [
+            '1. Crea un proyecto en https://supabase.com',
+            '2. Ve a Settings > API en tu dashboard',
+            '3. Copia Project URL y Anon Key',
+            '4. Actualiza el archivo .env.local con tus credenciales reales',
+            '5. Reinicia el servidor con: npm run dev'
+          ]
+        },
+        timestamp: new Date().toISOString()
+      }, { status: 500 });
+    }
+    
+    // Solo importar supabase si las variables están configuradas
+    const { supabase } = await import('@/lib/supabase');
+    
     console.log('🔍 Testing Supabase connection...');
     
     // Test 1: Connection check
@@ -45,10 +70,10 @@ export async function GET() {
     
     // Test 4: Check environment variables
     const envCheck = {
-      SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      SUPABASE_KEY: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      url_value: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 20) + '...',
-      key_value: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.substring(0, 20) + '...'
+      SUPABASE_URL: !!supabaseUrl,
+      SUPABASE_KEY: !!supabaseAnonKey,
+      url_value: supabaseUrl?.substring(0, 20) + '...',
+      key_value: supabaseAnonKey?.substring(0, 20) + '...'
     };
     
     return NextResponse.json({
@@ -70,7 +95,8 @@ export async function GET() {
     return NextResponse.json({
       status: 'error',
       error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      hint: 'Verifica que las variables de entorno estén configuradas en .env.local'
     }, { status: 500 });
   }
 }
